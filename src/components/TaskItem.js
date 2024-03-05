@@ -2,7 +2,7 @@
 import React from 'react';
 import { makeStyles } from '@mui/styles';
 import Typo from './Typo';
-import Button from './Butto';
+import Button from './Button';
 
 const useStyles = makeStyles({
     root: {
