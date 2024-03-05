@@ -4,7 +4,7 @@ import { makeStyles } from '@mui/styles'
 const useStyles = makeStyles({
     os01: {
         fontFamily: 'Object Sans',
-        fontSize: 'clamp(1.625rem , 5vw, 3.75rem)', //20px-60px
+        fontSize: 'clamp(26px , 5vw, 16px)', //20px-60px
         lineHeight: 'clamp(2rem , 5vw, 4.25rem)', //32px-68px
         fontWeight: 700,
     },

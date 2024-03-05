@@ -5,7 +5,8 @@ import TaskItem from './TaskItem';
 
 const useStyles = makeStyles({
     root: {
-        border: '1px solid #ccc',
+        border: '5px solid #ccc',
+        borderRadius: '5px',
         padding: '10px',
         marginRight: '10px',
         minHeight: "80vh",

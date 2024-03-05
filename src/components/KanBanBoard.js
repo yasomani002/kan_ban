@@ -44,7 +44,6 @@ const KanBanBoard = () => {
     const handleDragOver = (event) => {
         event.preventDefault();
     };
-
     const handleDrop = async (event, targetColumn) => {
         const draggedTaskId = event.dataTransfer.getData('text/plain');
         const updatedTasks = tasks.map(task => {
@@ -53,11 +52,19 @@ const KanBanBoard = () => {
             }
             return task;
         });
-
+    
         setTasks(updatedTasks);
-
-        // You might want to send an API request to update the task's column on the server here
+    
+        // Update task's column on the server
+        try {
+            await axios.put(`https://64c1fab4fa35860baea1054d.mockapi.io/roles/add-task/${draggedTaskId}`, {
+                column: targetColumn
+            });
+        } catch (error) {
+            setError(error.response?.data?.detail);
+        }
     };
+    
 
     return (
         <div className={classes.root}>
