@@ -1,246 +1,93 @@
-// import React, { useEffect, useState } from 'react';
-// import { makeStyles } from '@mui/styles';
-// import axios from 'axios';
-
-// const useStyles = makeStyles({
-//     root: {
-//         width: '150px',
-//         height: '50px',
-//         backgroundColor: 'blue',
-//         color: '#fff',
-//         display: 'flex',
-//         alignItems: 'center',
-//         justifyContent: 'center',
-//         cursor: 'pointer', // Add cursor pointer for better UX
-//         marginBottom: '5px' // Add margin bottom for spacing between tasks
-//     }
-// });
-// const KanBanBoard = () => {
-//     const classes = useStyles();
-//     const [error, setError] = useState()
-//     const [response, setResponse] = useState()
-//     const [isLoading, setIsLoading] = useState(true)
-//     const [tasks, setTasks] = useState(null);
-
-//     const [newTask, setNewTask] = useState([
-//         {
-//           "createdAt": "2024-02-08T20:51:50.653Z",
-//           "name": "Saul Schowalter",
-//           "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/658.jpg",
-//           "id": "1",
-//           "text": "eee"
-//         },
-//         {
-//           "createdAt": "2024-02-08T23:24:16.604Z",
-//           "name": "Erik Boyer",
-//           "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/401.jpg",
-//           "id": "2",
-//           "text": "eee",
-//           "column": "todo"
-//         },
-//         {
-//           "createdAt": "2024-02-08T16:49:48.100Z",
-//           "name": "Georgia Murray",
-//           "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/741.jpg",
-//           "id": "3",
-//           "text": "eee",
-//           "column": "todo"
-//         },
-//         {
-//           "createdAt": "2024-02-09T06:53:25.658Z",
-//           "name": "Cedric Bauch Jr.",
-//           "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/387.jpg",
-//           "id": "4",
-//           "text": "eee",
-//           "column": "todo"
-//         }
-//       ])
-
-//     useEffect(() => {
-//         axios.get(`https://64c1fab4fa35860baea1054d.mockapi.io/roles/add-task`)
-//             .then((response) => {
-//                 setResponse(response?.data);
-//                 setIsLoading(false); // Set loading to false when data is fetched
-//             })
-//             .catch((error) => {
-//                 setError(error?.response?.data?.detail);
-//                 setIsLoading(false); // Set loading to false even if there's an error
-//             });
-//     }, []);
-//     useEffect(() => {
-//         if (response) {
-//             setTasks(response); // Set tasks to response data
-//         }
-//     }, [response]);
-
-//     console.log(response, 'res')
-
-//     const handleDragStart = (event, id) => {
-//         event.dataTransfer.setData('text/plain', id);
-//     };
-
-//     const handleDrop = (event, column) => {
-//         const taskId = event.dataTransfer.getData('text/plain');
-//         const updatedTasks = tasks?.map((task) => {
-//             if (task.id === parseInt(taskId, 10)) {
-//                 return { ...task, column };
-//             }
-//             return task;
-//         });
-//         setTasks(updatedTasks);
-//     };
-//     console.log(tasks, 'task')
-//     return (
-//         <>
-//             {isLoading && <p>Load</p>}
-//             <div style={{ display: 'flex' }}>
-//                 <div
-//                     style={{ border: '1px solid #ccc', padding: '10px', marginRight: '10px' }}
-//                     onDrop={(e) => handleDrop(e, 'todo')}
-//                     onDragOver={(e) => e.preventDefault()}
-//                 >
-//                     <h2>Todo</h2>
-//                     {newTask
-//                         ?.filter((task) => task.column === 'todo')
-//                         .map((task) => (
-//                             <div
-//                                 key={task.id}
-//                                 draggable
-//                                 className={classes.root}
-
-//                                 onDragStart={(e) => handleDragStart(e, task.id)}
-//                                 style={{ border: '1px solid #ddd', padding: '8px', marginBottom: '8px' }}
-//                             >
-//                                 {task.text}
-//                             </div>
-//                         ))}
-//                 </div>
-
-//                 <div
-//                     style={{ border: '1px solid #ccc', padding: '10px' }}
-//                     onDrop={(e) => handleDrop(e, 'inProgress')}
-//                     onDragOver={(e) => e.preventDefault()}
-//                 >
-//                     <h2>In Progress</h2>
-//                     {newTask
-//                         ?.filter((task) => task.column === 'inProgress')
-//                         .map((task) => (
-//                             <div
-//                                 key={task.id}
-//                                 draggable
-//                                 className={classes.root}
-
-//                                 onDragStart={(e) => handleDragStart(e, task.id)}
-//                                 style={{ border: '1px solid #ddd', padding: '8px', marginBottom: '8px' }}
-//                             >
-//                                 {task.text}
-//                             </div>
-//                         ))}
-//                 </div>
-//             </div>
-//         </>
-//     );
-// };
-
-// export default KanBanBoard;
-
+// KanBanBoard.js
 import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@mui/styles';
 import axios from 'axios';
+import Column from './Column';
 
+import { makeStyles } from '@mui/styles';
 const useStyles = makeStyles({
     root: {
-        width: '150px',
-        height: '50px',
-        backgroundColor: 'blue',
-        color: '#fff',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        cursor: 'pointer', // Add cursor pointer for better UX
-        marginBottom: '5px' // Add margin bottom for spacing between tasks
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(0, 1fr))", /* Equal width columns */
+        gap: "10px"
     }
-});
+})
 const KanBanBoard = () => {
     const classes = useStyles();
-    const [response, setResponse] = useState()
-    const [error, setError] = useState()
 
+    const [tasks, setTasks] = useState([]);
+    const [error, setError] = useState(null);
 
-    const handleDragStart = (event, id) => {
-        event.dataTransfer.setData('text/plain', id);
+    useEffect(() => {
+        axios.get(`https://64c1fab4fa35860baea1054d.mockapi.io/roles/add-task`)
+            .then(response => {
+                setTasks(response.data);
+            })
+            .catch(error => {
+                setError(error.response?.data?.detail);
+            });
+    }, []);
+
+    const handleDelete = (taskId) => {
+        axios.delete(`https://64c1fab4fa35860baea1054d.mockapi.io/roles/add-task/${taskId}`)
+            .then(response => {
+                setTasks(tasks.filter(task => task.id !== taskId));
+            })
+            .catch(error => {
+                setError(error.response?.data?.detail);
+            });
+    };
+
+    const handleDragStart = (event, taskId) => {
+        event.dataTransfer.setData('text/plain', taskId);
     };
 
     const handleDragOver = (event) => {
         event.preventDefault();
     };
 
-    const handleDrop = async (event, column) => {
-        const draggedId = event.dataTransfer.getData('text/plain');
-        const updatedTasks02 = response.map(task => {
-            if (task.id === draggedId) {
-                var updatedTask = {
-                    id: task.id,
-                    text: task.text,
-                    column: column
-                }
-                axios.put(`https://64c1fab4fa35860baea1054d.mockapi.io/roles/add-task/${draggedId}`, updatedTask);
-                return updatedTask
+    const handleDrop = async (event, targetColumn) => {
+        const draggedTaskId = event.dataTransfer.getData('text/plain');
+        const updatedTasks = tasks.map(task => {
+            if (task.id === draggedTaskId) {
+                return { ...task, column: targetColumn };
             }
             return task;
         });
 
-        setResponse(updatedTasks02)
+        setTasks(updatedTasks);
+
+        // You might want to send an API request to update the task's column on the server here
     };
 
-    /// dynamic 
-    useEffect(() => {
-        axios.get(`https://64c1fab4fa35860baea1054d.mockapi.io/roles/add-task`)
-            .then((response) => {
-                setResponse(response?.data);
-            })
-            .catch((error) => {
-                setError(error?.response?.data?.detail);
-            });
-    }, []);
-
     return (
-        <div style={{ display: 'flex' }}>
-            <div
-                style={{ border: '1px solid #ccc', padding: '10px', marginRight: '10px' }}
-                onDrop={(e) => handleDrop(e, 'todo')}
-                onDragOver={handleDragOver}
-            >
-                <h2>To Do</h2>
-                {response?.filter(task => task.column === 'todo').map(task => (
-                    <div
-                        key={task.id}
-                        className={classes.root}
-                        draggable="true"
-                        onDragStart={(e) => handleDragStart(e, task.id)}
-                    >
-                        <p>{task.text}</p>
-                    </div>
-                ))}
-            </div>
-
-            <div
-                style={{ border: '1px solid #ccc', padding: '10px', marginRight: '10px' }}
-                onDrop={(e) => handleDrop(e, 'inProgress')}
-                onDragOver={handleDragOver}
-            >
-                <h2>In Progress</h2>
-                {response?.filter(task => task.column === 'inProgress').map(task => (
-                    <div
-                        key={task.id}
-                        className={classes.root}
-                        draggable="true"
-                        onDragStart={(e) => handleDragStart(e, task.id)}
-                    >
-                        <p>{task.text}</p>
-                    </div>
-                ))}
-            </div>
+        <div className={classes.root}>
+            <Column
+                columnName="To Do"
+                columnKey="todo"
+                tasks={tasks.filter(task => task.column === 'todo')}
+                handleDelete={handleDelete}
+                handleDragStart={handleDragStart}
+                handleDragOver={handleDragOver}
+                handleDrop={handleDrop}
+            />
+            <Column
+                columnName="In Progress"
+                columnKey="inProgress"
+                tasks={tasks.filter(task => task.column === 'inProgress')}
+                handleDelete={handleDelete}
+                handleDragStart={handleDragStart}
+                handleDragOver={handleDragOver}
+                handleDrop={handleDrop}
+            />
+            <Column
+                columnName="Done"
+                columnKey="done"
+                tasks={tasks.filter(task => task.column === 'done')}
+                handleDelete={handleDelete}
+                handleDragStart={handleDragStart}
+                handleDragOver={handleDragOver}
+                handleDrop={handleDrop}
+            />
         </div>
     );
 };
