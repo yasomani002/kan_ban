@@ -9,7 +9,7 @@ const useStyles = makeStyles({
         borderRadius: '5px',
         padding: '10px',
         marginRight: '10px',
-        minHeight: "80vh",
+        minHeight: "90vh",
     },
     columnHeader: {
         marginBottom: '10px',
@@ -19,7 +19,6 @@ const useStyles = makeStyles({
 
 const Column = ({ columnName, columnKey, tasks, handleDelete, handleDrop, handleDragStart, handleDragOver }) => {
     const classes = useStyles();
-
     return (
         <div className={classes.root} onDrop={(e) => handleDrop(e, columnKey)} onDragOver={handleDragOver}>
             <h2 className={classes.columnHeader}>{columnName}</h2>

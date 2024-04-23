@@ -1,30 +1,32 @@
-import { Input, InputAdornment } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import React from 'react'
+import TextField from '@mui/material/TextField';
 import PropTypes from 'prop-types'
+import InputAdornment from '@mui/material/InputAdornment';
+import { MenuItem } from '@mui/material';
 
 
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
-        height: '49px',
-        backgroundColor: '#ffffff',
-        borderRadius: '8px',
-        border: '1px solid #EAEAEA',
-        textDecoration: 'none',
-        boxShadow: '#908a8a 6px 6px 7px',
-        '& input': {
-            margin: '10px',
-            fontWeight: 500,
-            fontSize: 'clamp(0rem , 5vw, 0.875rem)', //6px-14px',
-            color: '#000648',
-            '&::placeholder': {
-                color: '#6a6c7e',
-                fontWeight: '600',
-                fontSize: '14px',
-                lineHeight: '18px'
-            }
-        },
+        // height: '49px',
+        // backgroundColor: '#ffffff',
+        // borderRadius: '8px',
+        // border: '1px solid #EAEAEA',
+        // textDecoration: 'none',
+        // boxShadow: '#908a8a 6px 6px 7px',
+        // '& input': {
+        //     margin: '10px',
+        //     fontWeight: 500,
+        //     fontSize: 'clamp(0rem , 5vw, 0.875rem)', //6px-14px',
+        //     color: '#000648',
+        //     '&::placeholder': {
+        //         color: '#6a6c7e',
+        //         fontWeight: '600',
+        //         fontSize: '14px',
+        //         lineHeight: '18px'
+        //     }
+        // },
     },
     textFiledRequiredSymbole: {
         // color: theme.palette.orange
@@ -60,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
         marginRight: '1rem'
     },
     label: {
-        margin: '0 0 12px 2px',
+        margin: '5px 0',
         textAlign: 'start'
     },
     error: {
@@ -84,54 +86,61 @@ const useStyles = makeStyles((theme) => ({
 
 function CustomTextFiled({
     label,
+    required,
     id,
     name,
     type,
     placeholder,
-    maxLength,
-    icon,
     onChange,
     autoComplete,
-    errors,
     defaultValue,
-    touched,
-    required,
+    className,
+    icon,
     endIcon,
-    className
+    touched,
+    select,
+    manuItem,
+    errors,
 }) {
     const classes = useStyles()
     const inputValue = defaultValue || '';
+    console.log(manuItem, 'manuItem')
     return (
         <div className={classes.className}>
             <p className={classes.label}>{label}
                 {required ? <span className={classes.textFiledRequiredSymbole}>{' *'}</span> : ''}
             </p>
-            <Input
+            <TextField
                 id={id}
                 name={name}
-                className={
-                    errors?.length > 1 && touched
-                        ? `${classes.redRoot} ${classes.root} ${className}`
-                        : `${classes.root} ${className}`
-                }
-                disableUnderline
                 type={type}
+                placeholder={placeholder}
                 onChange={onChange}
                 autoComplete={autoComplete}
-                placeholder={placeholder}
                 defaultValue={inputValue}
-                inputProps={{ maxLength: maxLength }}
-                startAdornment={icon ?
-                    <InputAdornment position="start" className={classes.inputIcon} >
-                        {icon}
-                    </InputAdornment> : ''
-                }
-                endAdornment={endIcon ?
-                    <InputAdornment position="end" className={classes.endInputIcon}>
-                        {endIcon}
-                    </InputAdornment> : ''
-                }
-            />
+                className={classes.root}
+                margin="dense"
+                InputProps={{
+                    startAdornment: icon ? (
+                        <InputAdornment position="start" className={classes.inputIcon}>
+                            {icon}
+                        </InputAdornment>
+                    ) : null,
+                    endAdornment: endIcon ? (
+                        <InputAdornment position="end" className={classes.endInputIcon}>
+                            {endIcon}
+                        </InputAdornment>
+                    ) : null
+                }}
+                select={select}
+            >
+                {manuItem?.map((item) => {
+                    return (
+                        <MenuItem key={item.value} value={item.value}>{item.label}</MenuItem>
+                    )
+                })}
+            </TextField>
+
 
             {errors && touched ? <p className={classes.error}>{errors}</p> : null}
         </div>
