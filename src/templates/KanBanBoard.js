@@ -1,4 +1,3 @@
-// KanBanBoard.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Column from './Column';
@@ -69,7 +68,7 @@ const KanBanBoard = () => {
     return (
         <div className={classes.root}>
             <Column
-                columnName="To Do"
+                columnName="TO DO"
                 columnKey="todo"
                 tasks={tasks.filter(task => task.column === 'todo')}
                 handleDelete={handleDelete}
@@ -78,7 +77,7 @@ const KanBanBoard = () => {
                 handleDrop={handleDrop}
             />
             <Column
-                columnName="In Progress"
+                columnName="IN PROGRESS"
                 columnKey="inProgress"
                 tasks={tasks.filter(task => task.column === 'inProgress')}
                 handleDelete={handleDelete}
@@ -87,7 +86,7 @@ const KanBanBoard = () => {
                 handleDrop={handleDrop}
             />
             <Column
-                columnName="Done"
+                columnName="DONE"
                 columnKey="done"
                 tasks={tasks.filter(task => task.column === 'done')}
                 handleDelete={handleDelete}
