@@ -3,14 +3,15 @@ import React from 'react'
 
 const useStyles = makeStyles({
     button: {
-        backgroundColor: '#FF4F21',
+        backgroundColor: '#001fff',
         color: '#ffffff',
         minWidth: '110px',
         width: 'auto',
         height: 'auto',
         maxHeight: '50px',
         border: 'none',
-        borderRadius: '40px',
+        borderRadius: '10px',
+        fontFamily: 'Kanit',
         fontSize: 'clamp(18px , 18px, 24px)', //18px-24px
         lineHeight: 'clamp(8px, 18px, 18px)', //8px-18px
         padding: '12px 36px',

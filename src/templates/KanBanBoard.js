@@ -8,13 +8,27 @@ const useStyles = makeStyles({
         display: "grid",
         gridTemplateColumns: "repeat(auto-fit, minmax(0, 1fr))", /* Equal width columns */
         gap: "10px"
+    },
+    '@media (max-width: 1200px)': {
+        root: {
+            gridTemplateColumns: "1fr 1fr 1fr", /* Equal width columns */
+        }
+    },
+    '@media (max-width: 900px)': {
+        root: {
+            gridTemplateColumns: "1fr 1fr", /* Equal width columns */
+        }
+    },
+    '@media (max-width: 600px)': {
+        root: {
+            gridTemplateColumns: "1fr", /* Equal width columns */
+        }
     }
 })
 const KanBanBoard = () => {
     const classes = useStyles();
 
     const [tasks, setTasks] = useState([]);
-    const [error, setError] = useState(null);
 
     useEffect(() => {
         axios.get(`https://64c1fab4fa35860baea1054d.mockapi.io/roles/add-task`)
@@ -22,7 +36,7 @@ const KanBanBoard = () => {
                 setTasks(response.data);
             })
             .catch(error => {
-                setError(error.response?.data?.detail);
+                console.log(error.response?.data?.detail);
             });
     }, []);
 
@@ -32,7 +46,7 @@ const KanBanBoard = () => {
                 setTasks(tasks.filter(task => task.id !== taskId));
             })
             .catch(error => {
-                setError(error.response?.data?.detail);
+                console.log(error.response?.data?.detail);
             });
     };
 
@@ -51,22 +65,31 @@ const KanBanBoard = () => {
             }
             return task;
         });
-    
+
         setTasks(updatedTasks);
-    
+
         // Update task's column on the server
         try {
             await axios.put(`https://64c1fab4fa35860baea1054d.mockapi.io/roles/add-task/${draggedTaskId}`, {
                 column: targetColumn
             });
         } catch (error) {
-            setError(error.response?.data?.detail);
+            console.log(error.response?.data?.detail);
         }
     };
-    
+
 
     return (
         <div className={classes.root}>
+            <Column
+                columnName="ON HOLD"
+                columnKey="on_hold"
+                tasks={tasks.filter(task => task.column === 'on_hold')}
+                handleDelete={handleDelete}
+                handleDragStart={handleDragStart}
+                handleDragOver={handleDragOver}
+                handleDrop={handleDrop}
+            />
             <Column
                 columnName="TO DO"
                 columnKey="todo"
@@ -78,8 +101,8 @@ const KanBanBoard = () => {
             />
             <Column
                 columnName="IN PROGRESS"
-                columnKey="inProgress"
-                tasks={tasks.filter(task => task.column === 'inProgress')}
+                columnKey="in_progress"
+                tasks={tasks.filter(task => task.column === 'in_progress')}
                 handleDelete={handleDelete}
                 handleDragStart={handleDragStart}
                 handleDragOver={handleDragOver}

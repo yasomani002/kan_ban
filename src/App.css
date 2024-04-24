@@ -1,0 +1,14 @@
+@font-face{
+    font-family: 'Kanit';
+    src:url('./assets/font-family/Kanit-Regular.ttf')
+}
+@font-face{
+    font-family: 'Libre';
+    src:url('./assets/font-family/LibreFranklin-Regular.ttf')
+}
+
+
+
+::-webkit-scrollbar {
+    display: none;
+}
