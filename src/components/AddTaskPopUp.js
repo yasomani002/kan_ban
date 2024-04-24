@@ -86,8 +86,9 @@ function CustomDialog() {
                         defaultValue={formData.column}
                         variant="outlined"
                         manuItem={[
+                            {value : 'on_hold' , label: 'ON HOLD'},
                             {value : 'todo' , label: 'TO DO'},
-                            {value : 'inProgress' , label: 'IN PROGRESS'},
+                            {value : 'in_progress' , label: 'IN PROGRESS'},
                             {value : 'done' , label: 'DONE'},
                         ]}
                     />

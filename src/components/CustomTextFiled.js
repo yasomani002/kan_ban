@@ -4,29 +4,12 @@ import TextField from '@mui/material/TextField';
 import PropTypes from 'prop-types'
 import InputAdornment from '@mui/material/InputAdornment';
 import { MenuItem } from '@mui/material';
+import Typo from './Typo';
 
 
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
-        // height: '49px',
-        // backgroundColor: '#ffffff',
-        // borderRadius: '8px',
-        // border: '1px solid #EAEAEA',
-        // textDecoration: 'none',
-        // boxShadow: '#908a8a 6px 6px 7px',
-        // '& input': {
-        //     margin: '10px',
-        //     fontWeight: 500,
-        //     fontSize: 'clamp(0rem , 5vw, 0.875rem)', //6px-14px',
-        //     color: '#000648',
-        //     '&::placeholder': {
-        //         color: '#6a6c7e',
-        //         fontWeight: '600',
-        //         fontSize: '14px',
-        //         lineHeight: '18px'
-        //     }
-        // },
     },
     textFiledRequiredSymbole: {
         // color: theme.palette.orange
@@ -104,12 +87,11 @@ function CustomTextFiled({
 }) {
     const classes = useStyles()
     const inputValue = defaultValue || '';
-    console.log(manuItem, 'manuItem')
     return (
         <div className={classes.className}>
-            <p className={classes.label}>{label}
+            <Typo variant='lb03' className={classes.label}>{label}
                 {required ? <span className={classes.textFiledRequiredSymbole}>{' *'}</span> : ''}
-            </p>
+            </Typo>
             <TextField
                 id={id}
                 name={name}
@@ -136,7 +118,9 @@ function CustomTextFiled({
             >
                 {manuItem?.map((item) => {
                     return (
-                        <MenuItem key={item.value} value={item.value}>{item.label}</MenuItem>
+                        <MenuItem key={item.value} value={item.value}>
+                            <Typo variant='lb03'>{item.label}</Typo>
+                            </MenuItem>
                     )
                 })}
             </TextField>
