@@ -4,11 +4,13 @@ import Button from './Button';
 import Dialog from '@mui/material/Dialog';
 import axios from 'axios';
 import CustomTextFiled from './CustomTextFiled';
+import Snackbar from './SnackBar';
+import { Slide } from '@mui/material';
 
 const useStyles = makeStyles({
     root: {
         minHeight: '400px',
-        height: 'auto',
+        height: '500px',
         width: '500px',
         padding: '10px'
     },
@@ -25,7 +27,7 @@ const useStyles = makeStyles({
     },
     dialog__footer: {
         height: '15%',
-        width: 'inherit',
+        width: '95%',
         maxHeight: '100px',
         position: 'absolute',
         bottom: '0',
@@ -39,10 +41,10 @@ function CustomDialog() {
     const classes = useStyles()
     const [formData, setFormData] = useState({ column: 'todo' });
     const [openDialog, setOpenDialog] = useState(true)
-
+    const [error, setError] = useState(false)
+    const [severity, setSeverity] = useState('')
     const handleChange = (e) => {
         const { name, value } = e.target;
-        console.log(value, 'val')
         setFormData((prevData) => ({
             ...prevData,
             [name]: value,
@@ -52,24 +54,34 @@ function CustomDialog() {
     const handleClose = () => {
         setOpenDialog(false)
     }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         axios.post(`https://64c1fab4fa35860baea1054d.mockapi.io/roles/add-task`, formData)
             .then((response) => {
+                setError(true)
+                setSeverity('success')
                 window.location.reload();
             })
             .catch((error) => {
-
+                setError(true)
+                setSeverity('error')
             });
-
     };
+
+    const handleCancelButtonClick = (e) => {
+        e.preventDefault();
+        handleClose();
+    };
+
     return (
-        <Dialog open={openDialog}>
+        <Dialog TransitionComponent={Slide} open={openDialog}>
             <div className={classes.root}>
                 <form onSubmit={handleSubmit}>
 
                     <CustomTextFiled
-                        label="Text"
+                        required
+                        label="Title"
                         type="text"
                         name={"text"}
                         value={formData.text}
@@ -86,14 +98,15 @@ function CustomDialog() {
                         defaultValue={formData.column}
                         variant="outlined"
                         manuItem={[
-                            {value : 'on_hold' , label: 'ON HOLD'},
-                            {value : 'todo' , label: 'TO DO'},
-                            {value : 'in_progress' , label: 'IN PROGRESS'},
-                            {value : 'done' , label: 'DONE'},
+                            { value: 'on_hold', label: 'ON HOLD' },
+                            { value: 'todo', label: 'TO DO' },
+                            { value: 'in_progress', label: 'IN PROGRESS' },
+                            { value: 'done', label: 'DONE' },
                         ]}
                     />
 
                     <CustomTextFiled
+                        required
                         label="Description :"
                         type="text"
                         name={"description"}
@@ -102,19 +115,32 @@ function CustomDialog() {
                         onChange={handleChange}
                     />
 
+                    <CustomTextFiled
+                        required
+                        label="Hour"
+                        type="number"
+                        name={"hour"}
+                        value={formData.hour}
+                        defaultValue={formData.hour}
+                        onChange={handleChange}
+                    />
 
                     <div className={classes.dialog__footer}>
                         <Button
-                            onClick={handleClose}
+                            onClick={handleCancelButtonClick}
                         >Close</Button>
-                        <Button
-                            onClick={handleSubmit}
-                        >Save</Button>
+                        <Button type="submit">Save</Button>
                     </div>
                 </form>
+                {error &&
+                    <Snackbar
+                        message='Sucessfully.'
+                        severity={severity}
+                    />
+                }
             </div>
         </Dialog>
     )
 }
 
-export default CustomDialog
+export default CustomDialog;

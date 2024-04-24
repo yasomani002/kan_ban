@@ -27,6 +27,7 @@ function Typo({ children, variant, className }) {
   {
     'ka01': classes.ka01,
     'lb01': classes.lb01,
+    'lb02': classes.lb02,
     'lb03': classes.lb03,
   }
   return (

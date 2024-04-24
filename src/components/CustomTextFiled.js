@@ -8,6 +8,9 @@ import Typo from './Typo';
 
 
 const useStyles = makeStyles((theme) => ({
+    mainRoot:{
+        margin: '10px 0'
+    },
     root: {
         width: '100%',
     },
@@ -17,24 +20,6 @@ const useStyles = makeStyles((theme) => ({
     redRoot: {
         boxShadow: '#fcc7c7 6px 6px 7px',
         border: '1px solid red',
-        // animation: `$lauchTime 100ms ${theme.transitions.easing.easeInOut}`,
-    },
-    "@keyframes lauchTime": {
-        "0%": {
-            transform: "translate(5%, 0%)",
-        },
-        "25%": {
-            transform: "translate(-5%)",
-        },
-        "50%": {
-            transform: "translate(5%)",
-        },
-        "75%": {
-            transform: "translate(5%)",
-        },
-        "100%": {
-            transform: "translate(0%)",
-        }
     },
     inputIcon: {
         display: 'inline',
@@ -56,15 +41,6 @@ const useStyles = makeStyles((theme) => ({
         margin: '8px 0 0 5px',
         fontFamily: 'Object Sans',
     },
-    '@media (max-width: 1000px)': {
-        root: {
-            width: '100%',
-            height: '40px',
-        },
-        label: {
-            margin: '0 0 6px 2px'
-        },
-    }
 }))
 
 function CustomTextFiled({
@@ -77,7 +53,6 @@ function CustomTextFiled({
     onChange,
     autoComplete,
     defaultValue,
-    className,
     icon,
     endIcon,
     touched,
@@ -88,11 +63,12 @@ function CustomTextFiled({
     const classes = useStyles()
     const inputValue = defaultValue || '';
     return (
-        <div className={classes.className}>
+        <div className={classes.mainRoot}>
             <Typo variant='lb03' className={classes.label}>{label}
                 {required ? <span className={classes.textFiledRequiredSymbole}>{' *'}</span> : ''}
             </Typo>
             <TextField
+                required={required}
                 id={id}
                 name={name}
                 type={type}
@@ -120,7 +96,7 @@ function CustomTextFiled({
                     return (
                         <MenuItem key={item.value} value={item.value}>
                             <Typo variant='lb03'>{item.label}</Typo>
-                            </MenuItem>
+                        </MenuItem>
                     )
                 })}
             </TextField>
