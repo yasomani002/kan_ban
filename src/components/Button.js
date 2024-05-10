@@ -1,5 +1,6 @@
 import { makeStyles } from '@mui/styles'
 import React from 'react'
+import classNames from 'classnames'
 
 const useStyles = makeStyles({
     button: {
@@ -18,12 +19,12 @@ const useStyles = makeStyles({
         cursor: 'pointer'
     }
 })
-function Button({ children, onClick }) {
+function Button({ children, onClick, className }) {
     const classes = useStyles()
     return (
         <>
             <button
-                className={classes.button}
+                className={classNames(classes.button, className)}
                 onClick={onClick}
             >{children}</button>
         </>

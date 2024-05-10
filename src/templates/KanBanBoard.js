@@ -6,22 +6,23 @@ import { makeStyles } from '@mui/styles';
 const useStyles = makeStyles({
     root: {
         display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(0, 1fr))", /* Equal width columns */
-        gap: "10px"
+        gridTemplateColumns: "repeat(auto-fit, minmax(0, 1fr))",
+        gap: "10px",
+        marginTop: '1rem'
     },
     '@media (max-width: 1200px)': {
         root: {
-            gridTemplateColumns: "1fr 1fr 1fr", /* Equal width columns */
+            gridTemplateColumns: "1fr 1fr 1fr",
         }
     },
     '@media (max-width: 900px)': {
         root: {
-            gridTemplateColumns: "1fr 1fr", /* Equal width columns */
+            gridTemplateColumns: "1fr 1fr",
         }
     },
     '@media (max-width: 600px)': {
         root: {
-            gridTemplateColumns: "1fr", /* Equal width columns */
+            gridTemplateColumns: "1fr",
         }
     }
 })
