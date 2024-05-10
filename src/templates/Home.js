@@ -1,12 +1,12 @@
 import { useState } from "react";
 import Button from "../components/Button";
 import KanBanBoard from "./KanBanBoard";
-import AddTaskPopUp from "../components/AddTaskPopUp"
+import AddTaskPopUp from "../templates/AddTaskPopUp"
 
 function Home() {
   const [ openDialog,setOpenDialog] = useState(false)
   const handleOpenNewTaskDialog = () => {
-    setOpenDialog(true)
+    setOpenDialog(!openDialog)
   }
   return (
     <div >
