@@ -3,7 +3,13 @@ import axios from 'axios';
 import Column from './Column';
 
 import { makeStyles } from '@mui/styles';
+import useDataFetch from '../custom-hooks/useDataFetch';
+import Loader from '../components/Loader';
 const useStyles = makeStyles({
+    mainRoot: {
+        width: '100vw',
+        height: '100vh'
+    },
     root: {
         display: "grid",
         gridTemplateColumns: "repeat(auto-fit, minmax(0, 1fr))",
@@ -30,17 +36,12 @@ const KanBanBoard = () => {
     const classes = useStyles();
 
     const [tasks, setTasks] = useState([]);
-
+    const { data, loading } = useDataFetch('https://64c1fab4fa35860baea1054d.mockapi.io/roles/add-task')
     useEffect(() => {
-        axios.get(`https://64c1fab4fa35860baea1054d.mockapi.io/roles/add-task`)
-            .then(response => {
-                setTasks(response.data);
-            })
-            .catch(error => {
-                console.log(error.response?.data?.detail);
-            });
-    }, []);
-
+        if (data) {
+            setTasks(data.data)
+        }
+    }, [data])
     const handleDelete = (taskId) => {
         axios.delete(`https://64c1fab4fa35860baea1054d.mockapi.io/roles/add-task/${taskId}`)
             .then(response => {
@@ -81,44 +82,50 @@ const KanBanBoard = () => {
 
 
     return (
-        <div className={classes.root}>
-            <Column
-                columnName="ON HOLD"
-                columnKey="on_hold"
-                tasks={tasks.filter(task => task.column === 'on_hold')}
-                handleDelete={handleDelete}
-                handleDragStart={handleDragStart}
-                handleDragOver={handleDragOver}
-                handleDrop={handleDrop}
-            />
-            <Column
-                columnName="TO DO"
-                columnKey="todo"
-                tasks={tasks.filter(task => task.column === 'todo')}
-                handleDelete={handleDelete}
-                handleDragStart={handleDragStart}
-                handleDragOver={handleDragOver}
-                handleDrop={handleDrop}
-            />
-            <Column
-                columnName="IN PROGRESS"
-                columnKey="in_progress"
-                tasks={tasks.filter(task => task.column === 'in_progress')}
-                handleDelete={handleDelete}
-                handleDragStart={handleDragStart}
-                handleDragOver={handleDragOver}
-                handleDrop={handleDrop}
-            />
-            <Column
-                columnName="DONE"
-                columnKey="done"
-                tasks={tasks.filter(task => task.column === 'done')}
-                handleDelete={handleDelete}
-                handleDragStart={handleDragStart}
-                handleDragOver={handleDragOver}
-                handleDrop={handleDrop}
-            />
-        </div>
+        <>
+            {loading ?
+                <Loader />
+                :
+                <div className={classes.root}>
+                    <Column
+                        columnName="ON HOLD"
+                        columnKey="on_hold"
+                        tasks={tasks.filter(task => task.column === 'on_hold')}
+                        handleDelete={handleDelete}
+                        handleDragStart={handleDragStart}
+                        handleDragOver={handleDragOver}
+                        handleDrop={handleDrop}
+                    />
+                    <Column
+                        columnName="TO DO"
+                        columnKey="todo"
+                        tasks={tasks.filter(task => task.column === 'todo')}
+                        handleDelete={handleDelete}
+                        handleDragStart={handleDragStart}
+                        handleDragOver={handleDragOver}
+                        handleDrop={handleDrop}
+                    />
+                    <Column
+                        columnName="IN PROGRESS"
+                        columnKey="in_progress"
+                        tasks={tasks.filter(task => task.column === 'in_progress')}
+                        handleDelete={handleDelete}
+                        handleDragStart={handleDragStart}
+                        handleDragOver={handleDragOver}
+                        handleDrop={handleDrop}
+                    />
+                    <Column
+                        columnName="DONE"
+                        columnKey="done"
+                        tasks={tasks.filter(task => task.column === 'done')}
+                        handleDelete={handleDelete}
+                        handleDragStart={handleDragStart}
+                        handleDragOver={handleDragOver}
+                        handleDrop={handleDrop}
+                    />
+                </div>
+            }
+        </>
     );
 };
 
