@@ -10,7 +10,7 @@ function AddTaskPopUp() {
     // const classes = useStyles()
     const [formData, setFormData] = useState({ column: 'todo' });
     const [openDialog, setOpenDialog] = useState(true)
-    
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
